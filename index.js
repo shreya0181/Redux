@@ -1,6 +1,14 @@
 const redux =require('redux');
-const {createStore} = require("redux");
+const createStore = redux.createStore;
+const reduxLogger = require('redux-logger')
 const combineReducers = redux.combineReducers;
+
+// reduxLogger middleware
+
+const logger = reduxLogger.createLogger();
+
+// applymiddleware
+const applyMiddleware = redux.applyMiddleware;
 
 
 const Buy_cake = "Buy Cake";
@@ -71,12 +79,15 @@ const rootReducer = combineReducers({
     cake : cakeReducer,
     IceCream : IceCreamReducer
 });
-const store = createStore(rootReducer);
 
-    console.log("INitialState", store.getState());
 
+const store = createStore(rootReducer, applyMiddleware(logger));
+
+
+    // console.log("INitialState", store.getState());
+    console.log('Initial State ', store.getState())
 // register using subscribe--- *listener
-    const unsubscribe = store.subscribe(()=>console.log("updated State", store.getState()));
+const unsubscribe = store.subscribe(() => { })
 
 
 //Dispatcher is   used  pass actions 
