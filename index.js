@@ -1,14 +1,18 @@
-const { createStore } = require("redux");
-
 const redux =require('redux');
+const {createStore} = require("redux");
+const combineReducers = redux.combineReducers;
+
+
 const Buy_cake = "Buy Cake";
 const Buy_IceCream = " Buy  IceCream"
 // creating an Action 
 
 // *** Applications state has to be represented by a single object
 
-const initial_state ={numberOfcake: 10,
-numberOfIceCreams: 20} ;
+const initial_Cakestate ={numberOfcake: 10,
+} ;
+const initial_IceCreamstate ={
+    numberOfIceCreams: 20} ;
 function buycake ()
 {
      // An action has a type property 
@@ -35,7 +39,7 @@ function buyIceCream ()
 
 // (prevState, action )=> newState { } *** reducers work
 
-const reducer = (state= initial_state, action)=>{
+const cakeReducer = (state= initial_Cakestate, action)=>{
     switch(action.type){
         case Buy_cake : return {
             //  spread makes a copy of state and  then updates the copy 
@@ -43,6 +47,14 @@ const reducer = (state= initial_state, action)=>{
             numberOfcake: state.numberOfcake - 1
 
         }
+        
+         default : return state
+    }
+
+}
+const IceCreamReducer = (state= initial_IceCreamstate, action)=>{
+    switch(action.type){
+       
         case Buy_IceCream : return {
             //  spread makes a copy of state and  then updates the copy 
             ...state, 
@@ -53,8 +65,14 @@ const reducer = (state= initial_state, action)=>{
     }
 
 }
+//  combinig different reducers 
 
-const store = createStore(reducer);
+const rootReducer = combineReducers({
+    cake : cakeReducer,
+    IceCream : IceCreamReducer
+});
+const store = createStore(rootReducer);
+
     console.log("INitialState", store.getState());
 
 // register using subscribe--- *listener
